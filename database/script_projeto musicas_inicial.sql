@@ -1,20 +1,11 @@
-
-
-#uso da db
 use db_controle_musicas_aa;
 
-#criacao tabela 
-create table tbl_musica (
-id int not null primary key auto_increment,
-nome varchar(100) not null,
-duracao time not null,
-data_lancamento date not null, 
-letra text,
-link varchar(200) 
-);
+select * from tbl_musica;
+select * from tbl_genero;
+select * from tbl_instrumentos;
+select * from tbl_artistas;
+select * from tbl_album;
 
-show tables;
 
-select * from tbl_musicas;
 
 

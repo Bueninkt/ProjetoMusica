@@ -15,8 +15,6 @@ const prisma = new PrismaClient()
 const InsertMusica = async function(musica){
 
     try {
-    
-        
 
     let sql = `Insert into tbl_musica ( nome, 
                                          duracao, 
@@ -46,7 +44,7 @@ const InsertMusica = async function(musica){
         console.log(error)
         return false
     }
-    
+
 
 }
 
@@ -59,7 +57,7 @@ const updateMusica = async function(musica){
                                          data_lancamento = '${musica.data_lancamento}',
                                          letra = '${musica.letra}',
                                          link = '${musica.link}'    
-                                         Where id = ${musica.id} `
+`
 
         let result = await prisma.$executeRawUnsafe(sql)
 
@@ -112,7 +110,7 @@ const selectAllMusica = async function(){
 // funçao para buscar uma musica pelo ID
 const selectByidMusica = async function(id){
     try {
-        let sql = `select * from tbl_musica Where id = ${id}`
+        let sql = `select * from tbl_musica where id = ${id}`
 
         let result = await prisma.$queryRawUnsafe(sql)
 

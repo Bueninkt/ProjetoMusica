@@ -13,11 +13,7 @@ const ERROR_REQUIRED_FIELDS = {
     status_code: 400, 
     message: 'Existem campos de preenchimento obrigatórios ou quantidade de caracteres que não foram atentidos na requisição'
 
-
-
 }
-
-/***************************STATUS CODE DE ERRO******************/
 
 const ERROR_INTERNAL_SERVER_MODEL = {
     status: false, status_code: 500,

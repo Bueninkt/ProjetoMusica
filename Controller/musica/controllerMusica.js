@@ -6,7 +6,7 @@
  ********************************************************/
 
 // Import do arquivo de messagens e status code
-const message = require('../../mudulo/config.js')
+const message = require('../../modulo/config.js')
 
 // Import DAO para realizar o include no banco de dados
 const musicaDAO = require('../../model/DAO/musica.js')
@@ -27,9 +27,16 @@ const atualizarMusica = async function(id, musica, contentType) {
                 musica.data_lancamento == null || 
                 musica.data_lancamento == undefined || 
                 musica.data_lancamento.length > 50 ||
+                musica.letra == '' ||
+                musica.letra == null ||
                 musica.letra == undefined || 
+                musica.letra.length > 50 ||
+                musica.link == ''||
+                musica.link == null ||
                 musica.link == undefined || 
                 musica.link.length > 200 ||
+                musica.id_musica  == '' || 
+                musica.id_musica  == undefined ||
                 id == '' || 
                 id == undefined ||
                 id == null ||
@@ -48,9 +55,9 @@ const atualizarMusica = async function(id, musica, contentType) {
                         // adiciona o atributo Do no JSON com os dados recevidos no corpo de requisiição
                         musica.id = id
 
-                        let resultMusica = await musicaDAO.updateMusica(musica)
+                        let result = await musicaDAO.updateMusica(musica)
                         
-                        if(resultMusica){
+                        if(result){
                             return message.SUCESS_UPDATE_ITEM
                         }else{
                             return message.ERROR_INTERNAL_SERVER_MODEL
@@ -76,16 +83,6 @@ const atualizarMusica = async function(id, musica, contentType) {
 
 
 
-
-
-
-
-
-
-
-
-
-
 // funcao para inserir uma musica
 const inserirMusica = async function (musica, contentType) {
     try {
@@ -104,7 +101,10 @@ const inserirMusica = async function (musica, contentType) {
                 musica.data_lancamento.length > 50 ||
                 musica.letra == undefined || 
                 musica.link == undefined || 
-                musica.link.length > 200
+                musica.link.length > 200 || 
+                musica.id_artistas == '' || 
+                musica.id_artistas  == undefined
+                
             ) {  
                 return message.ERROR_REQUIRED_FIELDS //status code 400  
         
@@ -168,6 +168,8 @@ const excluirMusica = async function(id) {
 // funçao para retornar uma lista de musicas
 const listarMusica = async function() {
     try {
+        let arrayMusica
+
         let dadosMusica = {}
 
         let resultMusica = await musicaDAO.selectAllMusica()       
@@ -175,12 +177,29 @@ const listarMusica = async function() {
         if(resultMusica != false || typeof(resultMusica)== 'object'){
 
             if(resultMusica.length > 0){
-            // cria um JSON para oclocar o array de musicas
+            // cria um JSON para colocar o array de musicas
                 dadosMusica.status = true
                 dadosMusica.status_code = 200,
                 dadosMusica.items = resultMusica.length
-                dadosMusica.musics = resultMusica
 
+                
+                for(const itemMusica of resultMusica){
+                    //Busca os dados da classificação na controller de classificacao
+                    let dadosGenero = await controllerGenero.buscarGenero(itemMusica.id_genero)
+                    
+                    //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                    itemMusica.genero = dadosMusica.genero
+                    
+                    //Remover um atributo do JSON
+                    delete itemMusica.id_genero
+                    
+                    //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                    arrayMusica.push(itemMusica)
+ 
+                }
+
+
+                dadosMusica.musics = arrayMusica
                 return dadosMusica
         }else{
             return message.ERROR_CONTENT_NOT_FOUND//404
