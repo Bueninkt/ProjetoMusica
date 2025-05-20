@@ -21,6 +21,8 @@ const atualizarGenero = async function(id, genero, contentType) {
                 genero.tipo_genero == null  ||
                 genero.tipo_genero == undefined || 
                 genero.tipo_genero.length > 100 || 
+                genero.id_album == '' || 
+                genero.id_album == undefined ||
                 id == '' || 
                 id == undefined ||
                 id == null ||
@@ -70,7 +72,9 @@ const inserirGenero = async function (genero, contentType) {
             if (genero.tipo_genero == '' || 
                 genero.tipo_genero == null  ||
                 genero.tipo_genero == undefined || 
-                genero.tipo_genero.length > 100              
+                genero.tipo_genero.length > 100  ||
+                genero.id_album == '' || 
+                genero.id_album == undefined            
             ) {  
                 return message.ERROR_REQUIRED_FIELDS //status code 400  
         

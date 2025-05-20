@@ -40,11 +40,11 @@ const insertMusicaAlbum = async function(musicaAlbum){
 }
 
 //Função para atualizar um FilmeGenero existente
-const updateFilmeAlbum = async function(musicaAlbum){
+const updateMusicaAlbum = async function(musicaAlbum){
   try {
       let sql = `update tbl_musica_album set        id_musica       = ${musicaAlbum.id_musica},
-                                                    id_album    = ${musicaAlbum.idAlbum}
-                                        
+                                                    id_album    = ${musicaAlbum.idAlbum},
+                                                    where id = ${musicaAlbum.id}    
                                           
                             `
       let resultMusicaAlbum = await prisma.$executeRawUnsafe(sql)
@@ -118,7 +118,8 @@ const selectMusicaByIdAlbum = async function(idAlbum){
                                               on tbl_musica.id = tbl_musica_album.id_musica
                                             inner join tbl_album
                                               on tbl_album.id = tbl_musica_album.id_album
-    `
+                                              where tbl_musica_album.id_musica = ${idAlbum}
+                                              `       
 
       let result = await prisma.$queryRawUnsafe(sql)
 
@@ -139,6 +140,7 @@ const selectAlbumByIdMusica = async function(idMusica){
                                               on tbl_musica.id = tbl_musica_album.id_musica
                                             inner join tbl_album
                                               on tbl_album.id = tbl_musica_album.id_album
+                                          where tbl_musica_album.id_musica = ${idMusica}
                 `
                   
       let result = await prisma.$queryRawUnsafe(sql)
@@ -157,8 +159,8 @@ module.exports = {
     insertMusicaAlbum,
     updateMusicaAlbum,
     deleteMusicaAlbum,
+    selectMusicaByIdAlbum,
     selectAllMusicaAlbum,
     selectByIdMusicaAlbum,
-    selectMusicaByIdAlbum,
-    selectMusicaByIdAlbum
+    selectAlbumByIdMusica
 } 

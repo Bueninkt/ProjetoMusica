@@ -14,7 +14,7 @@ const prisma = new PrismaClient()
 const insertMusicaGenero = async function(musicaGenero){
   try {
 
-      let sql = `insert into tbl_musica_genero  ( 
+      let sql = `insert into tbl_musica_album  ( 
                                           id_musica,
                                           id_genero
                                         ) 
@@ -43,13 +43,13 @@ const insertMusicaGenero = async function(musicaGenero){
 const updateMusicaGenero = async function(musicaGenero){
   try {
       let sql = `update tbl_musica_genero set        id_musica       = ${musicaGenero.id_musica},
-                                                    id_genero      = ${musicaGenero.id_genero}
-                                        
+                                                    id_genero    = ${musicaGenero.id_genero},
+                                                    where id = ${musicaGenero.id}    
                                           
                             `
-      let resultMusicaGenero = await prisma.$executeRawUnsafe(sql)
+      let resultMusicaAlbum = await prisma.$executeRawUnsafe(sql)
 
-      if(resultMusicaGenero)
+      if(resultMusicaAlbum)
         return true
       else
         return false
@@ -74,7 +74,7 @@ const deleteMusicaGenero = async function(id){
   }
 }
 
-//Função para retornar todos os FilmeGeneros existentes
+
 const selectAllMusicaGenero = async function(){
 
     try {
@@ -114,11 +114,12 @@ const selectByIdMusicaGenero = async function(id){
 const selectMusicaByIdGenero = async function(idGenero){
   try {
       let sql = `select tbl_musica.* from tbl_musica
-                                            inner join tbl_musica_genero
+                                            inner join tbl_musica_Genero
                                               on tbl_musica.id = tbl_musica_genero.id_musica
                                             inner join tbl_genero
                                               on tbl_genero.id = tbl_musica_genero.id_genero
-    `
+                                              where tbl_musica_genero.id_musica = ${idGenero}
+                                              `       
 
       let result = await prisma.$queryRawUnsafe(sql)
 
@@ -134,11 +135,12 @@ const selectMusicaByIdGenero = async function(idGenero){
 //Função para retornar os generos pelo Filme
 const selectGeneroByIdMusica = async function(idMusica){
  try {
-      let sql = `select tbl_genero.* from tbl_musica 
+      let sql = `select tbl_album.* from tbl_musica 
                                             inner join tbl_musica_genero
                                               on tbl_musica.id = tbl_musica_genero.id_musica
                                             inner join tbl_genero
                                               on tbl_genero.id = tbl_musica_genero.id_genero
+                                          where tbl_musica_genero.id_musica = ${idMusica}
                 `
                   
       let result = await prisma.$queryRawUnsafe(sql)
@@ -157,8 +159,8 @@ module.exports = {
     insertMusicaGenero,
     updateMusicaGenero,
     deleteMusicaGenero,
+    selectMusicaByIdGenero,
     selectAllMusicaGenero,
     selectByIdMusicaGenero,
-    selectMusicaByIdGenero,
     selectGeneroByIdMusica
 } 

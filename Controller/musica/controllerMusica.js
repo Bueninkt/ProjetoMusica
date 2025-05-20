@@ -103,8 +103,9 @@ const inserirMusica = async function (musica, contentType) {
                 musica.link == undefined || 
                 musica.link.length > 200 || 
                 musica.id_artistas == '' || 
-                musica.id_artistas  == undefined
-                
+                musica.id_artistas  == undefined ||
+                musica.id_instrumentos == '' || 
+                musica.id_instrumentos == ''
             ) {  
                 return message.ERROR_REQUIRED_FIELDS //status code 400  
         
@@ -188,7 +189,7 @@ const listarMusica = async function() {
                     let dadosGenero = await controllerGenero.buscarGenero(itemMusica.id_genero)
                     
                     //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
-                    itemMusica.genero = dadosMusica.genero
+                    itemMusica.genero = dadosGenero.genero
                     
                     //Remover um atributo do JSON
                     delete itemMusica.id_genero
@@ -197,9 +198,24 @@ const listarMusica = async function() {
                     arrayMusica.push(itemMusica)
  
                 }
-
+                
+                for(const itemMusica of resultMusica){
+                    //Busca os dados da classificação na controller de classificacao
+                    let dadosAlbum = await controllerAlbum.buscarAlbum(itemMusica.id_album)
+                    
+                    //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                    itemMusica.album = dadosAlbum.album
+                    
+                    //Remover um atributo do JSON
+                    delete itemMusica.id_album
+                    
+                    //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                    arrayMusica.push(itemMusica)
+ 
+                }
 
                 dadosMusica.musics = arrayMusica
+
                 return dadosMusica
         }else{
             return message.ERROR_CONTENT_NOT_FOUND//404
