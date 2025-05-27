@@ -24,6 +24,7 @@ const InsertArtistas = async function(artistas){
                                                 '${artistas.tipos_integrantes}',
                                                 '${artistas.nome}',
                                                 '${artistas.quantidade}',
+                                                '${artistas.album_id}'  
         
 
                                                     
@@ -52,7 +53,7 @@ const updateArtistas = async function(artistas){
         let sql = `update tbl_artistas set nome =  '${artistas.nome}',
                                         tipos_integrantes = '${artistas.tipos_integrantes}',
                                         quantidade = '${artistas.quantidade}',
-                                        where id = '${musicaAlbum.id}' 
+                                        where id = '${artistas.id}' 
                                         `
 
         let result = await prisma.$executeRawUnsafe(sql)

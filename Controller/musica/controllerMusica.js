@@ -11,6 +11,8 @@ const message = require('../../modulo/config.js')
 // Import DAO para realizar o include no banco de dados
 const musicaDAO = require('../../model/DAO/musica.js')
 
+const controllerClassificacao   = require('../classificacao/controllerClassificacao.js')
+const controllerMusicaGenero     = require('./controllerMusicaGenero.js')
 
 // funçao para atualizar uma musica
 const atualizarMusica = async function(id, musica, contentType) {
@@ -51,7 +53,7 @@ const atualizarMusica = async function(id, musica, contentType) {
                 return message.ERROR_REQUIRED_FIELDS //status code 400  
             }else{
                 // VERIFICA SE O ID EXISTE NO BCD
-                let result = await musicaDAO.selectByidMusica(id)
+                let result = await musicaDAO.selectByidMusica(parseInt(id))
 
                 if(result != false || typeof(result) == 'object'){
                     if(result.length > 0){
@@ -150,7 +152,7 @@ const excluirMusica = async function(id) {
             if(resultMusica != false || typeof (resultMusica)== 'object'){
                 if (resultMusica.length > 0) {
                     
-                    let result = await musicaDAO.deleteMusica(id)
+                    let result = await musicaDAO.deleteMusica(parseInt(id))
                         if (result) 
                             return message.SUCESS_DELETE_ITEM
 
@@ -179,8 +181,7 @@ const listarMusica = async function() {
 
         let resultMusica = await musicaDAO.selectAllMusica()       
 
-        if(resultMusica != false || typeof(resultMusica)== 'object'){
-
+        if(resultMusica != false || typeof(resultMusica) == 'object'){
             if(resultMusica.length > 0){
             // cria um JSON para colocar o array de musicas
                 dadosMusica.status = true
@@ -235,21 +236,37 @@ const listarMusica = async function() {
 const buscarMusica = async function(id) {
     try {
 
-    if (id == '' || id == undefined || id == null || isNaN(id)) {
+        let arrayMusicas = []
+
+    if (id == '' || id == undefined || id == null || isNaN(id) || id <=0) {
     return message.ERROR_REQUIRED_FIELDS
 } else {
     
         let dadosMusica = {}
 
-        let resultMusica = await musicaDAO.selectByidMusica(id)       
+        let resultMusica = await musicaDAO.selectByidMusica(parseInt(id))       
 
         if(resultMusica != false || typeof(resultMusica) == 'object'){
 
             if(resultMusica.length > 0){
             // cria um JSON para oclocar o array de musicas
                 dadosMusica.status = true
-                dadosMusica.status_code = 200,
-                dadosMusica.musics = resultMusica
+                dadosMusica.status_code = 200
+            
+                for(const itemMusica of resultMusica){
+                    //Busca os dados da classificação na controller de classificacao
+                    let dados = await controllerInstrumentos.buscarInstrumentos(itemFilme.id_classificacao)
+                    
+                    //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                    itemFilme.classificacao = dadosClassificacao.classificacao
+                    
+                    //Remover um atributo do JSON
+                    delete itemFilme.id_classificacao
+                    
+                    //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                    arrayFilmes.push(itemFilme)
+ 
+                }
 
                 return dadosMusica
         }else{

@@ -20,14 +20,20 @@ const InsertMusica = async function(musica){
                                          duracao, 
                                          data_lancamento, 
                                          letra,
-                                         link
+                                         link, 
+                                         id_artistas,
+                                         id_instrumentos
                                         )
-                                        values(
+
+                                        values
+                                        (
                                             '${musica.nome}',
                                             '${musica.duracao}',
                                             '${musica.data_lancamento}',
                                             '${musica.letra}',
-                                            '${musica.link}'         
+                                            '${musica.link}',
+                                            '${musica.id_instrumentos}',      
+                                            '${musica.id_artistas}'                
 
     )`
 // executa o script Mysql, retorna resultado do banco de dados    
@@ -57,7 +63,9 @@ const updateMusica = async function(musica){
                                          data_lancamento = '${musica.data_lancamento}',
                                          letra = '${musica.letra}',
                                          link = '${musica.link}',
-                                         where id = '${musica.id}'    
+                                         id_artistas = '${musica.id_artistas}',
+                                         id_instrumetos = '${musica.id_instrumentos}',
+                                         where id = ${musica.id}    
 `
 
         let result = await prisma.$executeRawUnsafe(sql)

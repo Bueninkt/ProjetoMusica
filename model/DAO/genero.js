@@ -20,7 +20,8 @@ const InsertGenero = async function(genero){
         let sql = `Insert into tbl_genero ( tipo_genero
                                             )
                                             values(
-                                                '${genero.tipo_genero}'
+                                                '${genero.tipo_genero}',
+                                                ${genero.album_id}
                                                     
     
         )`

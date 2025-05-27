@@ -32,6 +32,9 @@ const controllerGenero = require('./Controller/genero/controllerGenero.js')
 const controllerInstrumentos = require('./Controller/instrumentos/controllerInstrumentos.js')
 const controllerAlbum = require('./Controller/album/controllerAlbum.js')
 const controllerArtistas = require('./Controller/artistas/controllerArtistas.js')
+const controllerMusicaAlbum = require('./Controller/musica/controllerMusicaAlbum.js')
+const controllerMusicaGenero = require('./Controller/musica/controllerMusicaGenero.js')
+
 
 //Cria um objeto para o body do tipo JSON
 const bodyParserJSON = bodyParser.json()
@@ -247,9 +250,7 @@ app.put('/v1/controle-musicas/instrumentos/:id', cors(), bodyParserJSON, async f
     response.status(resultInstrumentos.status_code)
     response.json(resultInstrumentos)
 
-})
-
-
+})  
 
 // Artistas
 
