@@ -20,7 +20,7 @@ const atualizarInstrumentos = async function(id, instrumentos, contentType) {
             if (instrumentos.nome == '' || 
                 instrumentos.nome == null  ||
                 instrumentos.nome == undefined || 
-                instrumentos.nome.length > 400 || 
+                instrumentos.nome.length > 40|| 
                 instrumentos.tipo == '' || 
                 instrumentos.tipo == null || 
                 instrumentos.tipo == undefined || 
@@ -74,7 +74,7 @@ const inserirInstrumentos = async function (instrumentos, contentType) {
             if (instrumentos.nome == '' || 
                 instrumentos.nome == null  ||
                 instrumentos.nome == undefined || 
-                instrumentos.nome.length > 400 || 
+                instrumentos.nome.length > 40 || 
                 instrumentos.tipo == '' || 
                 instrumentos.tipo == null || 
                 instrumentos.tipo == undefined || 

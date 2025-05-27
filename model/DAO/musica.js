@@ -56,7 +56,8 @@ const updateMusica = async function(musica){
                                          duracao = '${musica.duracao}',
                                          data_lancamento = '${musica.data_lancamento}',
                                          letra = '${musica.letra}',
-                                         link = '${musica.link}'    
+                                         link = '${musica.link}',
+                                         where id = '${musica.id}'    
 `
 
         let result = await prisma.$executeRawUnsafe(sql)

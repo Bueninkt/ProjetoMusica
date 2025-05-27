@@ -17,16 +17,16 @@ const prisma = new PrismaClient()
 const InsertArtistas = async function(artistas){
     try {
 
-        let sql = `Insert into tbl_artistas ( tipos_integrantes,
+        let sql = `Insert into tbl_artistas( tipos_integrantes,
                                                 nome, quantidade
                                             )
                                             values(
                                                 '${artistas.tipos_integrantes}',
                                                 '${artistas.nome}',
-                                                '${artistas.quantidade}'
+                                                '${artistas.quantidade}',
+        
 
                                                     
-    
         )`
     // executa o script Mysql, retorna resultado do banco de dados    
     // awartistas
@@ -51,7 +51,8 @@ const updateArtistas = async function(artistas){
     try {
         let sql = `update tbl_artistas set nome =  '${artistas.nome}',
                                         tipos_integrantes = '${artistas.tipos_integrantes}',
-                                        quantidade = '${artistas.quantidade}'
+                                        quantidade = '${artistas.quantidade}',
+                                        where id = '${musicaAlbum.id}' 
                                         `
 
         let result = await prisma.$executeRawUnsafe(sql)

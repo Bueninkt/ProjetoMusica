@@ -37,6 +37,10 @@ const atualizarMusica = async function(id, musica, contentType) {
                 musica.link.length > 200 ||
                 musica.id_musica  == '' || 
                 musica.id_musica  == undefined ||
+                musica.id_artistas == '' || 
+                musica.id_artistas  == undefined ||
+                musica.id_instrumentos == '' || 
+                musica.id_instrumentos == undefined ||
                 id == '' || 
                 id == undefined ||
                 id == null ||
@@ -105,7 +109,7 @@ const inserirMusica = async function (musica, contentType) {
                 musica.id_artistas == '' || 
                 musica.id_artistas  == undefined ||
                 musica.id_instrumentos == '' || 
-                musica.id_instrumentos == ''
+                musica.id_instrumentos == undefined
             ) {  
                 return message.ERROR_REQUIRED_FIELDS //status code 400  
         

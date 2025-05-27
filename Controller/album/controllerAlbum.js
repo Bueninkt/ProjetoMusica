@@ -23,6 +23,8 @@ const atualizarAlbum = async function(id, album, contentType) {
                 album.data_lancamento == null || 
                 album.data_lancamento == undefined || 
                 album.data_lancamento.length > 50 ||
+                album.id_genero == '' || 
+                album.id_genero == undefined ||
                 id == '' || 
                 id == undefined ||
                 id == null ||
@@ -80,7 +82,10 @@ const inserirAlbum = async function (album, contentType) {
                 album.nome.length > 100 || 
                 album.data_lancamento == null || 
                 album.data_lancamento == undefined || 
-                album.data_lancamento.length > 50 
+                album.data_lancamento.length > 50 ||
+                album.id_genero == '' ||
+                album.id_genero == undefined   
+
             ) {  
                 return message.ERROR_REQUIRED_FIELDS //status code 400  
         

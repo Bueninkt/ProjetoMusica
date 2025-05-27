@@ -47,8 +47,8 @@ const InsertGenero = async function(genero){
 // funçao para atualizar uma musica existente
 const updateGenero = async function(genero){
     try {
-        let sql = `update tbl_genero set tipo_genero  =  '${genero.tipo_genero}'
-        `
+        let sql = `update tbl_genero set tipo_genero  =  '${genero.tipo_genero}',
+        where id = '${musicaAlbum.id}' `                                   
 
         let result = await prisma.$executeRawUnsafe(sql)
 

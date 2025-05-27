@@ -50,8 +50,8 @@ const InsertInstrumentos = async function(instrumentos){
 const updateInstrumentos = async function(instrumentos){
     try {
         let sql = `update tbl_instrumentos set nome =  '${instrumentos.nome}',
-                                               tipo =   '${instrumentos.tipo}'
-                                               `
+                                               tipo =   '${instrumentos.tipo}',
+                                             where id = '${instrumentos.id}'   `
 
         let result = await prisma.$executeRawUnsafe(sql)
 
